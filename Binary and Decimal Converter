@@ -20,12 +20,12 @@ int BinaryToDecimal(const std::string& binary);
 int main()
 {
 	std::string binaryOrDecimal;		//Input for what user wants to convert from (1 for decimal to binary, 2 for binary to decimal)
-	char userContinue;					//Y or N for doing another conversion
-	std::string binaryInput;			//User's unsigned binary input
-	std::string decimalInput;           //User's decimal input
-	int result;							//Result to print conversion (also used for returns of errors)
+	char userContinue;			//Y or N for doing another conversion
+	std::string binaryInput;		//User's unsigned binary input
+	std::string decimalInput;           	//User's decimal input
+	int result;				//Result to print conversion (also used for returns of errors)
 
-										//Greeting to conversion program
+	//Greeting to conversion program
 	std::cout << "Hello welcome to the decimal/unsigned binary number converter!\n";
 
 	//Asks user which conversion they'd like to do, continuing as long as user enters 'Y' to continue 
@@ -34,10 +34,10 @@ int main()
 		std::cout << "\nFor a decimal to unsigned binary conversion enter '1'.  For a unsigned binary to decimal conversion enter '2': ";
 		std::getline(std::cin, binaryOrDecimal);	//Gets which conversion user wants to do first
 
-													//Switch statement for different conversion methods, includes error handling for improper user input
+		//Switch statement for different conversion methods, includes error handling for improper user input
 		switch (std::stoi(binaryOrDecimal))
 		{
-			//Convert decimal to binary
+		//Convert decimal to binary
 		case 1:
 			std::cout << "\nPlease enter your positive (integer) decimal number: ";
 			std::getline(std::cin, decimalInput);
@@ -55,7 +55,7 @@ int main()
 			{
 				break;
 			}
-			//Convert binary to decimal
+		//Convert binary to decimal
 		case 2:
 			std::cout << "\nPlease enter your unsigned binary number: ";
 			std::cin >> binaryInput;
@@ -73,7 +73,7 @@ int main()
 			{
 				break;
 			}
-			//Error catch for incorrect input for conversion selection
+		//Error catch for incorrect input for conversion selection
 		default:
 			std::cout << "\nYou didn't correctly select conversion method you wanted!!\n\n";
 			break;
@@ -116,7 +116,7 @@ int DecimalToBinary(const std::string& decimal)
 	{
 		dec = std::stoi(decimal);		//Converts the string input to an integer
 
-										//Finds the unsigned binary equivalent to decimal input
+		//Finds the unsigned binary equivalent to decimal input
 		while (dec > 0)
 		{
 			binaryInt = dec % 2;
