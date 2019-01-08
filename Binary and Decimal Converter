@@ -1,0 +1,171 @@
+/*********************************
+* BinaryAndDecimalConverter.cpp
+* Nick Chapman 2018
+* This program can convert an unsinged binary number to
+* it's decimal equivalent and vice-versa
+*********************************/
+
+#include "stdafx.h"
+#include <algorithm>
+#include <iostream>
+#include <string>
+
+//Decimal to unsigned binary conversion function
+int DecimalToBinary(const std::string& decimal);
+
+//Unsigned binary to decimal conversion function
+int BinaryToDecimal(const std::string& binary);
+
+
+int main()
+{
+	std::string binaryOrDecimal;		//Input for what user wants to convert from (1 for decimal to binary, 2 for binary to decimal)
+	char userContinue;					//Y or N for doing another conversion
+	std::string binaryInput;			//User's unsigned binary input
+	std::string decimalInput;           //User's decimal input
+	int result;							//Result to print conversion (also used for returns of errors)
+
+										//Greeting to conversion program
+	std::cout << "Hello welcome to the decimal/unsigned binary number converter!\n";
+
+	//Asks user which conversion they'd like to do, continuing as long as user enters 'Y' to continue 
+	do
+	{
+		std::cout << "\nFor a decimal to unsigned binary conversion enter '1'.  For a unsigned binary to decimal conversion enter '2': ";
+		std::getline(std::cin, binaryOrDecimal);	//Gets which conversion user wants to do first
+
+													//Switch statement for different conversion methods, includes error handling for improper user input
+		switch (std::stoi(binaryOrDecimal))
+		{
+			//Convert decimal to binary
+		case 1:
+			std::cout << "\nPlease enter your positive (integer) decimal number: ";
+			std::getline(std::cin, decimalInput);
+
+			result = DecimalToBinary(decimalInput);
+
+			//If there isn't any error from input, prints decimal to binary conversion result
+			if (result != -1)
+			{
+				std::cout << "\n\n" << decimalInput << " in binary form is: " << result;
+				std::cout << std::endl << std::endl;
+				break;
+			}
+			else
+			{
+				break;
+			}
+			//Convert binary to decimal
+		case 2:
+			std::cout << "\nPlease enter your unsigned binary number: ";
+			std::cin >> binaryInput;
+
+			result = BinaryToDecimal(binaryInput);
+
+			//If there isn't any error from input, prints binary to decimal conversion results
+			if (result != -1)
+			{
+				std::cout << "\n\n" << binaryInput << " in decimal form is: " << result;
+				std::cout << std::endl << std::endl;
+				break;
+			}
+			else
+			{
+				break;
+			}
+			//Error catch for incorrect input for conversion selection
+		default:
+			std::cout << "\nYou didn't correctly select conversion method you wanted!!\n\n";
+			break;
+		}
+
+		std::cout << "Would you like to convert another number? (Y/N): ";
+		std::cin >> userContinue;
+
+		//Clears input
+		std::cin.clear();
+		std::cin.ignore();
+
+	} while (userContinue == 'Y' || userContinue == 'y');
+
+	std::cout << "\nThanks for using, have a great day!\n\n";
+
+	system("PAUSE");
+
+	return EXIT_SUCCESS;
+}
+
+//Function to convert decimal number to unsigned binary
+int DecimalToBinary(const std::string& decimal)
+{
+	std::string binary;
+	int dec;
+	int i = 0;
+	int binaryInt;
+	int finalBinary;
+
+	std::size_t found = decimal.find_first_not_of("0123456789 ");	//Error catching to find any non integers entered (letters or symbols)
+
+																	//If user input isn't correct, return -1 and break from function
+	if (found != std::string::npos)
+	{
+		std::cout << "\nHey, " << decimal << " isn't a positive integer, try again?";
+		return -1;	//Returns error
+	}
+	else
+	{
+		dec = std::stoi(decimal);		//Converts the string input to an integer
+
+										//Finds the unsigned binary equivalent to decimal input
+		while (dec > 0)
+		{
+			binaryInt = dec % 2;
+			dec /= 2;
+
+			binary += std::to_string(binaryInt);
+		}
+
+		std::reverse(binary.begin(), binary.end());		//Reverses conversion operation to put binary result in correct order
+
+		finalBinary = std::stoi(binary);
+
+		return finalBinary;		//Returns final result to print
+	}
+}
+
+//Function to convert unsigned binary to decimal
+int BinaryToDecimal(const std::string& binary)
+{
+	int n = 0;
+	int binarySize;
+	double binaryInt = 0;
+
+	for (int i = 0; i < binary.length(); i++)
+	{
+		//If input contains anything but '1' or '0', returns -1 and breaks from function
+		if (binary[i] != '1')
+		{
+			if (binary[i] != '0')
+			{
+				std::cout << "\nYour input " << binary << "' isn't an unsigned binary number, try again?\n\n";
+				return -1;	//Returns error
+			}
+		}
+	}
+
+	binarySize = binary.length();
+
+	//Finds the decimal equivalent of unsigned binary input
+	for (int i = binarySize - 1; i >= 0; i--)
+	{
+		if (binary[i] == '1')
+		{
+			binaryInt += pow(2, n);
+		}
+
+		n++;
+	}
+
+	return (int)binaryInt;	//Returns final result to print
+}
+
